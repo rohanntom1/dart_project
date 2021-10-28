@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 // Future<String> getCurrencies() async {
 //   http.Response response = await http.get(Uri.parse(
-//       'https://v6.exchangerate-api.com/v6/5366b4e648db52bac7661c6f/latest/USD'));
+//       'https://v6.exchangerate-api.com/v6/5366b4e648db52bac7661c6f/codes'));
 //   return (response.body);
 // }
 
@@ -17,9 +17,13 @@ Future<double> convertRate(
     String source, String destination, double amount) async {
   http.Response response = await http.get(Uri.parse(
       'https://v6.exchangerate-api.com/v6/5366b4e648db52bac7661c6f/pair/${source.toUpperCase()}/${destination.toUpperCase()}/$amount'));
-  var body = jsonDecode(response.body);
-  final lists = body["conversion_result"];
-  return lists;
+  if (response.statusCode == 200) {
+    var body = jsonDecode(response.body);
+    final lists = body["conversion_result"];
+    return lists;
+  } else {
+    throw Exception("Failed to connect to API");
+  }
 }
 
 void main() async {
@@ -32,7 +36,7 @@ void main() async {
   stdout.write('Enter the amount: ');
   amount = double.parse(stdin.readLineSync()!);
   if (source == null || destination == null) {
-    throw Exception("Please enter the valid value");
+    throw Exception("Please enter a valid value");
   }
   final rates = await convertRate(source, destination, amount);
   //double rate = rates;
