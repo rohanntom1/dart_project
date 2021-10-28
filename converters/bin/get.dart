@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 // Future<String> getCurrencies() async {
 //   http.Response response = await http.get(Uri.parse(
-//       'https://v6.exchangerate-api.com/v6/5366b4e648db52bac7661c6f/codes'));
+//       'https://v6.exchangerate-api.com/v6/5366b4e648db52bac7661c6f/latest/USD'));
 //   return (response.body);
 // }
 
